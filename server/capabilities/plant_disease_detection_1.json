@@ -1,0 +1,39 @@
+{
+  "id": "plant_disease_detection_1",
+  "pluginKey": "@official-plugins/ai-image-understanding",
+  "pluginVersion": "1.0.22",
+  "name": "植物病变检测AI图片理解",
+  "description": "分析植物照片，识别植物品种、健康状态并提供诊断结果和养护建议",
+  "icon": "",
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "plant_images": {
+        "format": "plugin-image-url",
+        "description": "用户上传的植物照片",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      }
+    },
+    "required": [
+      "plant_images"
+    ],
+    "order": [
+      "plant_images"
+    ]
+  },
+  "formValue": {
+    "modelID": "2015",
+    "modelParams": {
+      "temperature": 0.5,
+      "maxTokens": 1000
+    },
+    "prompt": "你是一位专业的植物病理学专家，拥有丰富的植物病害诊断经验。\n\n请对提供的植物照片进行全面分析，以严格的JSON格式输出诊断结果，不要包含任何其他文字说明。\n\nJSON结构必须包含以下字段：\n{\n  \"plantSpecies\": \"植物品种中文名\",\n  \"diagnosisType\": \"healthy|low_light|water_shortage|nutrient_deficiency|water_logging\",\n  \"diagnosisDetail\": \"详细诊断描述\",\n  \"causeAnalysis\": \"成因分析\",\n  \"careSuggestion\": \"养护建议\",\n  \"careTasks\": [\n    {\n      \"taskType\": \"light|water|fertilize|drain\",\n      \"deviceType\": \"grow_light|water_pump|fertilizer|drain_valve\",\n      \"deviceAction\": \"on|off|open|close\",\n      \"duration\": 分钟数\n    }\n  ]\n}\n\n字段说明：\n1. plantSpecies：明确识别出的植物品种中文名称\n2. diagnosisType：只能从给定枚举值中选择一个，严格匹配拼写：healthy（健康）、low_light（光照不足）、water_shortage（缺水）、nutrient_deficiency（养分不足）、water_logging（积水）\n3. diagnosisDetail：详细描述植物当前的状态，包括叶片、茎干、根系等可见的具体症状\n4. causeAnalysis：分析导致当前状态的可能原因\n5. careSuggestion：提供针对性的处理方法和后续养护指导\n6. careTasks：可执行的养护任务数组，每个任务包含：\n   - taskType：任务类型，只能是light（光照）、water（浇水）、fertilize（施肥）、drain（排水）之一\n   - deviceType：使用的设备类型，只能是grow_light（补光灯）、water_pump（水泵）、fertilizer（施肥设备）、drain_valve（排水阀）之一\n   - deviceAction：设备操作，只能是on（开启）、off（关闭）、open（打开）、close（关闭）之一\n   - duration：任务持续时间，单位为分钟，填写数字\n\n输出要求：\n- 严格按照上述JSON结构输出，字段名和枚举值必须完全匹配，不得自定义\n- 诊断内容客观准确，基于图片可见内容，避免主观臆断\n- 养护建议和任务实用可行，具有可操作性\n- 仅输出合法JSON，不要添加任何解释性文字、markdown格式或其他内容",
+    "images": "{{input.plant_images}}"
+  },
+  "createdAt": 1790292000775,
+  "updatedAt": 1790309635144,
+  "createdBy": 7585267931265649865
+}
